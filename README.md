@@ -1,34 +1,40 @@
 # raindrop-cli
 
 A **zero-dependency** Raindrop.io client — CLI, Python library, and stdio MCP
-server in a single file. Free replacement for the Raindrop "Pro" MCP server.
+server in a single file.
 
-- **No pip install.** Standard library only. Python 3.9+.
-- **One file.** `raindrop_cli.py`, ~600 lines, auditable in five minutes.
-- **No subscription.** Uses the public REST API v1, which is free.
+- **No pip install.** Standard library only. Python 3.9+ (tested 3.9–3.13).
+- **One file.** `raindrop_cli.py`, ~690 lines, auditable in five minutes.
+- **No subscription.** Talks to Raindrop's public REST API v1 directly.
 - **Works as an MCP server** for Claude, Codex, Cursor, Zed, or any MCP client.
 - **MIT licensed.**
 
 ---
 
-## Why this exists
+## How it connects
 
-Raindrop.io's official MCP server requires a Pro plan, and on the free tier
-text and semantic search are disabled. But MCP is only a wrapper — the REST API
-underneath it is free and unrestricted. This project talks to that API directly.
+This talks to Raindrop.io's public REST API v1 directly, so it needs no plugin,
+no wrapper service, and no paid plan for API access.
 
-| | Free REST API (this tool) | Pro MCP |
+MCP is only a wrapper around that same API. It's genuinely useful when a client
+speaks MCP and nothing else — but it isn't required for anything this tool does,
+and the API underneath is open to any account.
+
+Here's what each path covers, so you can judge it yourself:
+
+| | REST API v1 (this tool) | Raindrop's MCP server |
 |---|---|---|
 | Read bookmarks | ✅ | ✅ |
 | Collections & tags | ✅ | ✅ |
 | Text search | ✅ | ✅ |
 | Add / edit / delete | ✅ | ✅ |
 | Highlights | ✅ | ✅ |
-| **Semantic search** | ❌ | ✅ |
+| Semantic search | ❌ | ✅ |
 
-The one real loss is semantic search — "find that article about X" when you
-forgot the words. Everything else is identical. If you never use that, you
-don't need Pro for API access.
+The one gap is **semantic search** — "find that article about X" when you've
+forgotten the words. It runs on Raindrop's index, not the public API. If you
+lean on it, the paid tier earns its keep. If you search by tag and keyword,
+the REST API covers the rest.
 
 ---
 

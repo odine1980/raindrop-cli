@@ -2,8 +2,8 @@
 """
 raindrop-cli — a zero-dependency Raindrop.io client and MCP server.
 
-Free replacement for the Raindrop "Pro" MCP server: same REST API underneath,
-no subscription, no npm, no venv. Standard library only.
+Talks to the public REST API v1 directly. Standard library only: no
+dependencies, no build step, no wrapper service to run.
 
 Auth
 ----
@@ -45,7 +45,7 @@ import urllib.request
 __version__ = "1.0.0"
 
 API_BASE = "https://api.raindrop.io/rest/v1"
-USER_AGENT = f"raindrop-cli/{__version__} (+https://github.com/)"
+USER_AGENT = f"raindrop-cli/{__version__} (+https://github.com/odine1980/raindrop-cli)"
 
 # Collection pseudo-IDs understood by the API
 ALL = 0
@@ -593,7 +593,7 @@ def cmd_mcp(client: Raindrop, args) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="raindrop",
-        description="Zero-dependency Raindrop.io client (free replacement for the Pro MCP server).",
+        description="Zero-dependency Raindrop.io client: CLI, library, and stdio MCP server.",
     )
     p.add_argument("--token", help="API token (defaults to $RAINDROP_TOKEN)")
     p.add_argument("--json", action="store_true", help="raw JSON output")

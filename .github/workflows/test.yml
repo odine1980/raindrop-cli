@@ -1,0 +1,49 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: py${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Confirm there are no dependencies
+        if: matrix.python-version == '3.13'
+        run: |
+          python - <<'EOF'
+          import tomllib, pathlib
+          data = tomllib.loads(pathlib.Path("pyproject.toml").read_text())
+          deps = data["project"].get("dependencies", [])
+          assert not deps, f"project declares dependencies: {deps}"
+          print("no runtime dependencies")
+          EOF
+
+      - name: Run test suite
+        run: python -m unittest discover -s tests -v
+
+      - name: CLI smoke test
+        run: |
+          python raindrop_cli.py --version
+          python raindrop_cli.py --help > /dev/null
+          printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+            | RAINDROP_TOKEN=dummy python raindrop_cli.py mcp \
+            | python -c "import sys,json; [json.loads(l) for l in sys.stdin]; print('mcp ok')"

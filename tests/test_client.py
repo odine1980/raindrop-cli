@@ -1,5 +1,7 @@
 """Offline test suite for raindrop_cli. No token, no network required."""
 
+from __future__ import annotations
+
 import io
 import os
 import sys
