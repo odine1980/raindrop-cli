@@ -1,13 +1,27 @@
 # raindrop-cli
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
+[![tests](https://img.shields.io/badge/tests-30%20passing-brightgreen.svg)](tests/)
+[![dependencies](https://img.shields.io/badge/dependencies-none-brightgreen.svg)](raindrop_cli.py)
+
 A **zero-dependency** Raindrop.io client — CLI, Python library, and stdio MCP
 server in a single file.
 
 - **No pip install.** Standard library only. Python 3.9+ (tested 3.9–3.13).
 - **One file.** `raindrop_cli.py`, ~690 lines, auditable in five minutes.
-- **No subscription.** Talks to Raindrop's public REST API v1 directly.
+- **Free.** Talks to Raindrop's public REST API v1, which needs no paid plan.
 - **Works as an MCP server** for Claude, Codex, Cursor, Zed, or any MCP client.
 - **MIT licensed.**
+
+**The free option, explicitly:** Raindrop's own MCP server is beta and Pro-only,
+and on the free tier it omits text search. This tool uses the same public REST
+API any account can reach, so search, tags, highlights and writes all work
+without upgrading. Semantic search ("that article about…") is the one thing that
+lives on Raindrop's index and needs Pro — everything else is here.
+
+Using the Hermes desktop app? There's a companion integration that puts the same
+data in a page inside the app: **[raindrop-hermes](https://github.com/odine1980/raindrop-hermes)**.
 
 ---
 
@@ -183,6 +197,30 @@ rd.delete(987654321)
 for item in rd.iter_all():
     print(item["title"], item["link"])
 ```
+
+---
+
+## Desktop app (Hermes)
+
+If you use the [Hermes](https://hermes-agent.nousresearch.com/docs) desktop app,
+[**raindrop-hermes**](https://github.com/odine1980/raindrop-hermes) puts your
+library inside the app: a `/raindrop` page with search and collection filters, a
+sidebar row, and four agent tools the assistant can call in chat
+(`raindrop_search`, `raindrop_recent`, `raindrop_collections`, `raindrop_status`).
+
+It is the same design as this tool — REST API, free tier, no Pro dependency —
+and it keeps the token **on the backend**: the desktop half never sees it and
+only calls the package's own route.
+
+You can run both against the same token; there is no conflict.
+
+| | this repo (`raindrop-cli`) | `raindrop-hermes` |
+|---|---|---|
+| CLI + library | ✅ | — |
+| stdio MCP server (any client) | ✅ | — |
+| In-app page & sidebar | — | ✅ |
+| Agent tools in chat | — | ✅ |
+| Token location | your env / flags | backend `~/.hermes/.env` |
 
 ---
 
