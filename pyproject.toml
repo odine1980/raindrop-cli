@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "raindrop-cli"
+version = "1.0.0"
+description = "Zero-dependency Raindrop.io client: CLI, Python library, and stdio MCP server"
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["raindrop", "bookmarks", "mcp", "cli", "model-context-protocol"]
+dependencies = []
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Internet",
+    "Topic :: Utilities",
+]
+
+[project.scripts]
+raindrop = "raindrop_cli:main"
+
+[tool.setuptools]
+py-modules = ["raindrop_cli"]
